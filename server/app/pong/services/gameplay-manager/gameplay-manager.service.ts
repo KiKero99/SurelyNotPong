@@ -5,18 +5,35 @@ import { PongMatchState } from '@app/pong/interfaces/pong-match-state.interface'
 import { MatchStatus } from '@app/pong/enums/match-status.enum';
 import { Server } from 'socket.io';
 import { NEXT_FRAME } from '@app/pong/constants/game-messages.const';
+import { MatchFactoryService } from '../match-factory/match-factory.service';
+import { JoinRequestInterface } from '@app/pong/interfaces/join-game-request.interface';
 
 @Injectable()
 export class GameplayManagerService {
     private gameLoopId;
     private server: Server;
 
-    constructor (private readonly roomService: RoomService) {}
+    constructor (
+        private readonly roomService: RoomService,
+        private readonly matchFactory: MatchFactoryService
+    ) {}
 
     setServer(server: Server) {
         this.server = server;
     }
 
+    createRoom(ownerName: string): string {
+        const roomId = this.roomService.addRoom(this.matchFactory.createMatchFactory(ownerName));
+        return roomId;
+    }
+
+    joinRoom(request: JoinRequestInterface) {
+        const room = this.roomService.getRoom(request.roomId);
+        if (!room) return;
+
+        room.player2 = this.matchFactory.createPlayer(request.ownerName, false);
+        room.status = MatchStatus.STARTED;
+    }
 
     gameLoop () {
         if (this.gameLoopId) return;

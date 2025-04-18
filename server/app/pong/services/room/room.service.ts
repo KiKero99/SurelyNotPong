@@ -6,7 +6,7 @@ export class RoomService {
     private matches: Map<string, PongMatchState> = new Map();
 
     get rooms() {
-        return this.rooms;
+        return this.matches;
     }
 
     getRoom(roomId: string) {
@@ -16,7 +16,7 @@ export class RoomService {
     addRoom(room: PongMatchState): string {
         const roomId: string = crypto.randomUUID();
         this.rooms.set(roomId, room);
-        return roomId
+        return roomId;
     }
 
     deleteRoom(roomId: string) {
