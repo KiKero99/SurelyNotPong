@@ -1,11 +1,12 @@
 import './App.css'
 import { Home } from './components/home/home';
 import { UsernamePage } from './components/username-page/username-page';
+import { GamePage } from './components/game-page/game-page';
 import { BrowserRouter as Router, Route, Routes, Navigate, useLocation } from 'react-router-dom';
 
 function RequireUsername({ children }: { children: JSX.Element }) {
   const location = useLocation();
-  const username = localStorage.getItem('username');
+  const username = sessionStorage.getItem('username');
 
   if (!username) {
     return <Navigate to="/username" state={{ from: location }} replace />;
@@ -28,6 +29,7 @@ function App() {
             </RequireUsername>
           }
         />
+        <Route path="/game" element={<GamePage />} />
       </Routes>
     </Router>
   );

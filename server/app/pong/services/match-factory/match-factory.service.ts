@@ -26,6 +26,15 @@ export class MatchFactoryService {
         }
     }
 
+    createBall(): Ball {
+        return {
+            position: this.createInitialBallPosition(),
+            xSpeed: this.randomInitialSpeed(),
+            ySpeed: this.randomInitialSpeed() > 0 ? 0.5 : -0.5,
+        };
+    }
+
+
     private createPlayerInitialPosition(isCreator: boolean = true): Position {
         return {
             x: MATCH_WIDTH / 2 ,
@@ -33,22 +42,14 @@ export class MatchFactoryService {
         }
     }
 
-    private createBall(): Ball {
-        return {
-            position: this.createInitialBallPosition(),
-            xSpeed: this.randomInitialSpeed(),
-            ySpeed: this.randomInitialSpeed(),
-        };
-    }
-
     private createInitialBallPosition(): Position {
         return {
             x: MATCH_WIDTH / 2,
-            y: MATCH_WIDTH / 2 ,
+            y: MATCH_WIDTH ,
         };
     }
 
     private randomInitialSpeed(maxSpeed: number = 1) {
-        return (Math.random() * 2 - 1 ) * maxSpeed;
+        return (Math.random() * 1 - 0.5 ) * maxSpeed;
     }
 }

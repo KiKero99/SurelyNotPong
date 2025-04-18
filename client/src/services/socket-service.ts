@@ -1,23 +1,13 @@
 import { io, Socket } from 'socket.io-client';
 
-const URL = 'http://localhost:3000';
+const URL =  'http://localhost:3000/';
 
 class SocketService {
   private socket: Socket | null = null;
 
   connect() {
     if (!this.socket) {
-      this.socket = io(URL, {
-        transports: ['websocket'],
-      });
-
-      this.socket.on('connect', () => {
-        console.log('Connected to socket server');
-      });
-
-      this.socket.on('disconnect', () => {
-        console.log('Disconnected from socket server');
-      });
+      this.socket = io(URL, { transports: ['websocket'], upgrade: false });
     }
   }
 

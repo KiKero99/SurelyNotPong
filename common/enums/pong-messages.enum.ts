@@ -4,4 +4,5 @@ export enum PongMessages {
     JOIN_ROOM = 'joinRoom',
     GAME_STARTED = 'gamestarted',
     NEXT_FRAME = 'NEXT_FRAME',
+    PLAYER_MOVE = 'playerMoved'
 }

@@ -7,7 +7,7 @@ export function UsernamePage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const storedUsername = localStorage.getItem('username');
+    const storedUsername = sessionStorage.getItem('username');
     if (storedUsername) {
       navigate('/');
     }
@@ -16,7 +16,7 @@ export function UsernamePage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (username.trim()) {
-      localStorage.setItem('username', username);
+        sessionStorage.setItem('username', username);
       navigate('/');
     }
   };
