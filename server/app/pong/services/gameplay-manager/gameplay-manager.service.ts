@@ -7,6 +7,7 @@ import { Server } from 'socket.io';
 import { NEXT_FRAME } from '@app/pong/constants/game-messages.const';
 import { MatchFactoryService } from '../match-factory/match-factory.service';
 import { JoinRequestInterface } from '@app/pong/interfaces/join-game-request.interface';
+import { PongMessages } from '@common/enums/pong-messages.enum';
 
 @Injectable()
 export class GameplayManagerService {
@@ -31,8 +32,13 @@ export class GameplayManagerService {
         const room = this.roomService.getRoom(request.roomId);
         if (!room) return;
 
+        const socket = this.server.sockets.sockets.get(request.ownerName);
+        if(!socket) return;
+        socket.join(request.roomId);
+
         room.player2 = this.matchFactory.createPlayer(request.ownerName, false);
         room.status = MatchStatus.STARTED;
+        this.server.to(request.roomId).emit(PongMessages.GAME_CREATED, room);
     }
 
     gameLoop () {
